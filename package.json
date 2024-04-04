@@ -10,9 +10,12 @@
     "test": "jest",
     "clean-watchman": "watchman watch-del-all && watchman shutdown-server",
     "deploy-ios-dev": "cp config/dev/config.json config/config.json && cd ios && fastlane dev --env dev",
-    "deploy-ios-pro": "cp config/pro/config.json config/config.json && cd ios && fastlane pro --env pro"
+    "deploy-ios-pro": "cp config/pro/config.json config/config.json && cd ios && fastlane pro --env pro",
+    "codepush-upload-sourcemap-ios-dev": "scripts/codepush/upload_sourcemap_ios.sh dev",
+    "codepush-upload-sourcemap-ios-pro": "scripts/codepush/upload_sourcemap_ios.sh pro"
   },
   "dependencies": {
+    "@sentry/react-native": "^5.20.0",
     "appcenter": "5.0.1",
     "appcenter-analytics": "5.0.1",
     "appcenter-crashes": "5.0.1",
@@ -31,6 +34,7 @@
     "@types/react": "^18.2.6",
     "@types/react-test-renderer": "^18.0.0",
     "babel-jest": "^29.6.3",
+    "babel-plugin-module-resolver": "^5.0.0",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
     "prettier": "2.8.8",

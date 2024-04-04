@@ -68,4 +68,5 @@ yarn-error.log
 config/
 .env*
 AppCenter-Config.plist
+sentry.properties
 outputs*

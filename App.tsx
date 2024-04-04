@@ -8,6 +8,7 @@
 import React from 'react';
 import type {PropsWithChildren} from 'react';
 import {
+  Button,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -20,11 +21,13 @@ import CodePush, {CodePushOptions} from 'react-native-code-push';
 
 import {
   Colors,
-  DebugInstructions,
   Header,
   LearnMoreLinks,
+  DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+
+import SentryWrap, {utilSentryCaptureException} from './src/util_sentry';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -80,6 +83,16 @@ function App(): React.JSX.Element {
           <Section title="Step One">
             Edit <Text style={styles.highlight}>App.tsx</Text> to change this
             screen and then come back to see your edits.
+            <Button
+              title="Sentry Error Button"
+              onPress={() => {
+                try {
+                  throw new Error('Sentry Error Button');
+                } catch (error) {
+                  utilSentryCaptureException(error);
+                }
+              }}
+            />
           </Section>
           <Section title="See Your Changes">
             <ReloadInstructions />
@@ -127,4 +140,4 @@ const codePushOptions: CodePushOptions = {
   },
 };
 
-export default CodePush(codePushOptions)(App);
+export default CodePush(codePushOptions)(SentryWrap(App));
