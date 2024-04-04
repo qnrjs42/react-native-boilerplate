@@ -8,7 +8,9 @@
     "lint": "eslint .",
     "start": "react-native start",
     "test": "jest",
-    "clean-watchman": "watchman watch-del-all && watchman shutdown-server"
+    "clean-watchman": "watchman watch-del-all && watchman shutdown-server",
+    "deploy-ios-dev": "cp config/dev/config.json config/config.json && cd ios && fastlane dev --env dev",
+    "deploy-ios-pro": "cp config/pro/config.json config/config.json && cd ios && fastlane pro --env pro"
   },
   "dependencies": {
     "react": "18.2.0",

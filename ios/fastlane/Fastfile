@@ -1,0 +1,90 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  xcodeproj = "ohmy_app.xcodeproj"
+  workspace = "ohmy_app.xcworkspace"
+  plist_path = "ohmy_app/Info.plist"
+
+  desc "Push a new dev build to TestFlight"
+  lane :dev do
+    app_identifier = ENV["APP_IDENTIFIER"] # com.ohmy-app-dev
+    match(type: "appstore")
+    
+    sh "bash ./change_app_identifier.sh dev"
+
+    update_info_plist(
+      xcodeproj: xcodeproj,
+      plist_path: plist_path,
+      app_identifier: app_identifier,
+      display_name: "ohmy-app-dev"
+    )
+        
+    increment_version_number(
+      bump_type: "patch",
+      xcodeproj: xcodeproj
+    )
+    increment_build_number(
+      build_number: 1,
+      xcodeproj: xcodeproj
+    )
+
+    build_app(
+      workspace: workspace,
+      output_directory: "outputs/dev",
+      scheme: "ohmy_app",
+      xcargs: "-allowProvisioningUpdates",
+      silent: true,
+      clean: true
+    )
+    upload_to_testflight(
+      ipa: "outputs/dev/ohmy_app.ipa",
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "Push a new production build to TestFlight"
+  lane :pro do
+    app_identifier = ENV["APP_IDENTIFIER"] # com.ohmy-app
+    match(type: "appstore")
+
+    sh "bash ./change_app_identifier.sh pro"
+
+    update_info_plist(
+      xcodeproj: xcodeproj,
+      plist_path: plist_path,
+      app_identifier: app_identifier,
+      display_name: "ohmy-app"
+    )
+
+    increment_version_number(xcodeproj: xcodeproj)
+    increment_build_number(xcodeproj: xcodeproj)
+
+    build_app(
+      workspace: workspace,
+      output_directory: "outputs/pro",
+      scheme: "ohmy_app",
+      xcargs: "-allowProvisioningUpdates",
+      silent: true,
+      clean: true
+    )
+    upload_to_testflight(
+      ipa: "outputs/pro/ohmy_app.ipa",
+      skip_waiting_for_build_processing: true
+    )
+  end
+end
