@@ -2,6 +2,8 @@
 
 https://www.notion.so/qnrjs42/react-native-fastlane-feat-code-push-a6c33a4f71cf4145a919633f2ad8eda8?pvs=4
 
+## Android 세팅 준비 중...
+
 ## Config
 
 ### Config 구조
