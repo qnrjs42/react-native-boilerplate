@@ -9,8 +9,10 @@
     "start": "react-native start",
     "test": "jest",
     "clean-watchman": "watchman watch-del-all && watchman shutdown-server",
-    "deploy-ios-dev": "cp config/dev/config.json config/config.json && cd ios && fastlane dev --env dev",
-    "deploy-ios-pro": "cp config/pro/config.json config/config.json && cd ios && fastlane pro --env pro",
+    "set-dev": "cp config/dev/config.json config/config.json && cp config/dev/.env .env && cp config/dev/sentry.properties ios/sentry.properties",
+    "set-pro": "cp config/pro/config.json config/config.json && cp config/pro/.env .env && cp config/pro/sentry.properties ios/sentry.properties",
+    "deploy-ios-dev": "yarn run set-dev && cd ios && fastlane dev --env dev",
+    "deploy-ios-pro": "yarn run set-pro && cd ios && fastlane pro --env pro",
     "codepush-upload-sourcemap-ios-dev": "scripts/codepush/upload_sourcemap_ios.sh dev",
     "codepush-upload-sourcemap-ios-pro": "scripts/codepush/upload_sourcemap_ios.sh pro"
   },
