@@ -1,79 +1,141 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+## React Native Fastlane 세팅 문서
 
-# Getting Started
+https://www.notion.so/qnrjs42/react-native-fastlane-feat-code-push-a6c33a4f71cf4145a919633f2ad8eda8?pvs=4
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+## Config
 
-## Step 1: Start the Metro Server
+### Config 구조
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+```sh
+/config
+  /dev
+    .env
+    config.json
+    sentry.properties
+  /pro
+    .env
+    config.json
+    sentry.properties
+  AppCenter-Config.plist
+  config.json
+  sentry.properties
 
-To start Metro, run the following command from the _root_ of your React Native project:
+/ios
+  /fastlane
+    .env.dev
+    .env.pro
+  /ohmy_app
+    AppCenter-Config.plist
+  sentry.properties
+```
 
-```bash
-# using npm
-npm start
+### Config - .env 생성
 
-# OR using Yarn
+```sh
+# config/dev/.env
+# config/pro/.env
+# .env
+
+SENTRY_ORG=qnrjs42
+SENTRY_PROJECT=react-native
+SENTRY_AUTH_TOKEN=sntrys_eyJpYXQiOjE3M...
+```
+
+### Config - config.json 생성
+
+```json
+// config/dev/config.json
+// config/pro/config.json
+// config/config.json
+
+{
+  "mode": "development",
+  "sentry_dsn": "https://2af46c6c813c2ecde638dfb947497a3a@o4507015950172160.ingest.us.sentry.io/4507015982219264"
+}
+```
+
+### Config - AppCenter-Config.plist 생성
+
+```xml
+<!-- ios/ohmy_app/AppCenter-Config.plist -->
+<!-- config/AppCenter-Config.plist -->
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "https://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+  <key>AppSecret</key>
+  <string>1e2e3e4b-5e67-8fe9-1d0c-11e1ad2f1eb3</string>
+  </dict>
+</plist>
+```
+
+### Config - sentry.properties 생성
+
+```sh
+# ios/sentry.properties
+# android/sentry.properties
+# config/sentry.properties
+
+auth.token=sntrys_eyJpYXQiOjE3M...
+
+defaults.org=qnrjs42
+defaults.project=react-native
+
+defaults.url=https://sentry.io/
+
+```
+
+create sentry auth token: https://docs.sentry.io/product/accounts/auth-tokens/
+
+### Fastlane - ios .env 생성
+
+```sh
+# ios/fastlane/.env.dev
+
+FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=nqva-oxxd-ahkz-yzql
+APP_IDENTIFIER=com.ohmy-app-dev
+APPLE_ID=qnrjs42@gmail.com
+ITC_TEAM_ID=12345678
+TEAM_ID=9ABCDEFG
+CODEPUSH_DEPLOYMENT_KEY=XdeGGM3B1IqStiD99SKZz_b0CM-crlhZBtPKY
+```
+
+```sh
+# ios/fastlane/.env.pro
+
+FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD=nqva-oxxd-ahkz-yzql
+APP_IDENTIFIER=com.ohmy-app
+APPLE_ID=qnrjs42@gmail.com
+ITC_TEAM_ID=12345678
+TEAM_ID=9ABCDEFG
+CODEPUSH_DEPLOYMENT_KEY=4HWU_qGwc1t7I8ybKJNa6M79QeN-SMO1kWSsL
+```
+
+## Install
+
+```sh
+yarn install
+npx pod-install ios or cd ios && pod install
+```
+
+## Run
+
+```sh
+yarn clean-watchman
+
 yarn start
+yarn ios or yarn android
 ```
 
-## Step 2: Start your Application
+## Deploy TestFlight
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
-
-```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+```sh
+yarn run deploy-ios-dev
 ```
 
-### For iOS
+## Deploy Code Push And Upload Sourcemap
 
-```bash
-# using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
+```sh
+yarn run codepush-upload-sourcemap-ios-dev
 ```
-
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
-
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
-
-## Step 3: Modifying your App
-
-Now that you have successfully run the app, let's modify it.
-
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
-
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
