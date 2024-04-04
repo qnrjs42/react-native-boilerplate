@@ -75,7 +75,8 @@ SENTRY_AUTH_TOKEN=sntrys_eyJpYXQiOjE3M...
 ```sh
 # ios/sentry.properties
 # android/sentry.properties
-# config/sentry.properties
+# config/dev/sentry.properties
+# config/pro/sentry.properties
 
 auth.token=sntrys_eyJpYXQiOjE3M...
 
