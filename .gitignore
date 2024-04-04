@@ -64,3 +64,8 @@ yarn-error.log
 
 # testing
 /coverage
+
+config/
+.env*
+AppCenter-Config.plist
+outputs*
