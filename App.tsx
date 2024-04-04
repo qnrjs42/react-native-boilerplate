@@ -16,6 +16,7 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
+import CodePush, {CodePushOptions} from 'react-native-code-push';
 
 import {
   Colors,
@@ -115,4 +116,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+const codePushOptions: CodePushOptions = {
+  checkFrequency: CodePush.CheckFrequency.ON_APP_START,
+  installMode: CodePush.InstallMode.IMMEDIATE,
+  updateDialog: {
+    title: 'Update available',
+    optionalUpdateMessage: 'Update available. Install?',
+    optionalInstallButtonLabel: 'Install',
+    optionalIgnoreButtonLabel: 'Ignore',
+  },
+};
+
+export default CodePush(codePushOptions)(App);

@@ -33,6 +33,12 @@ platform :ios do
       app_identifier: app_identifier,
       display_name: "ohmy-app-dev"
     )
+
+    set_info_plist_value(
+      path: plist_path,
+      key: "CodePushDeploymentKey",
+      value: codepush_deployment_key
+    )
         
     increment_version_number(
       bump_type: "patch",
